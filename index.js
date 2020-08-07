@@ -22,4 +22,10 @@ app.use(express.json());
 app.use("/projects", projectRouter);
 app.use("/actions", actionRouter);
 
+app.get("/", (req, res) =>
+  res.send(
+    "Hello! Please use either of the following endpoints: /projects, or /actions."
+  )
+);
+
 app.listen(port, () => console.log(`Listening on port ${port}...`));

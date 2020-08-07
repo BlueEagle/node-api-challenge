@@ -19,6 +19,17 @@ router.get("/:id", validateProjectId, (req, res) => {
   res.status(200).json(res.project).end();
 });
 
+router.get("/:id/actions", validateProjectId, (req, res) => {
+  projectModel.getProjectActions(req.params.id).then((dbRes) => {
+    if (dbRes.length === 0)
+      res
+        .status(404)
+        .json({ messsage: "No actions found for that project." })
+        .end();
+    else res.status(200).json(dbRes).end();
+  });
+});
+
 router.post("/", validateProject, (req, res) => {
   projectModel
     .insert(req.body)
@@ -45,7 +56,7 @@ router.delete("/:id", validateProjectId, (req, res) => {
   projectModel
     .remove(req.params.id)
     .then((dbRes) => {
-      res.status(200).send("Item deleted successfully!").end();
+      res.status(200).json({ message: "Item deleted successfully!" }).end();
     })
     .catch((err) =>
       res.status(500).json({ message: "Internal server error." }).end()

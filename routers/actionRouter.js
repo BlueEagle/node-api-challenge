@@ -36,6 +36,17 @@ router.put("/:id", validateProjectExists, validateAction, (req, res) => {
     );
 });
 
+router.delete("/:id", validateActionId, (req, res) => {
+  actionModel
+    .remove(req.params.id)
+    .then((dbRes) =>
+      res.status(200).json({ message: "Item deleted successfully!" })
+    )
+    .catch((err) =>
+      res.status(500).json({ message: "Internal server error." }).end()
+    );
+});
+
 // CUSTOM MIDDLEWARE
 
 function validateProjectExists(req, res, next) {
